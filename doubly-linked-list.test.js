@@ -27,48 +27,48 @@ describe("push", function () {
   });
 });
 
-// describe("unshift", function () {
-//   it("adds node at start and increments length", function () {
-//     let dll = new DoublyLinkedList();
+describe("unshift", function () {
+  it("adds node at start and increments length", function () {
+    let dll = new DoublyLinkedList();
 
-//     dll.unshift(5);
-//     expect(dll.length).toBe(1);
-//     expect(dll.head.val).toBe(5);
-//     expect(dll.tail.val).toBe(5);
-//     expect(dll.tail.prev).toBe(null);
+    dll.unshift(5);
+    expect(dll.length).toBe(1);
+    expect(dll.head.val).toBe(5);
+    expect(dll.tail.val).toBe(5);
+    expect(dll.tail.prev).toBe(null);
 
-//     dll.unshift(10);
-//     expect(dll.length).toBe(2);
-//     expect(dll.head.val).toBe(10);
-//     expect(dll.tail.val).toBe(5);
-//     expect(dll.tail.prev.val).toBe(10);
+    dll.unshift(10);
+    expect(dll.length).toBe(2);
+    expect(dll.head.val).toBe(10);
+    expect(dll.tail.val).toBe(5);
+    expect(dll.tail.prev.val).toBe(10);
 
-//     dll.unshift(15);
-//     expect(dll.length).toBe(3);
-//     expect(dll.head.val).toBe(15);
-//     expect(dll.head.next.val).toBe(10);
-//     expect(dll.tail.val).toBe(5);
-//     expect(dll.tail.prev.val).toBe(10);
-//     expect(dll.tail.prev.prev.val).toBe(15);
-//   });
-// });
+    dll.unshift(15);
+    expect(dll.length).toBe(3);
+    expect(dll.head.val).toBe(15);
+    expect(dll.head.next.val).toBe(10);
+    expect(dll.tail.val).toBe(5);
+    expect(dll.tail.prev.val).toBe(10);
+    expect(dll.tail.prev.prev.val).toBe(15);
+  });
+});
 
-// describe("pop", function () {
-//   it("removes node at end and decrements length", function () {
-//     let dll = new DoublyLinkedList([5, 10]);
+describe("pop", function () {
+  it("removes node at end and decrements length", function () {
+    let dll = new DoublyLinkedList([5, 10]);
 
-//     expect(dll.pop()).toBe(10);
-//     expect(dll.head.val).toBe(5);
-//     expect(dll.tail.val).toBe(5);
-//     expect(dll.tail.prev).toBe(null);
-//     expect(dll.length).toBe(1);
+    expect(dll.pop()).toBe(10);
+    expect(dll.head.val).toBe(5);
+    expect(dll.tail.val).toBe(5);
+    expect(dll.tail.prev).toBe(null);
+    expect(dll.length).toBe(1);
 
-//     expect(dll.pop()).toBe(5);
-//     expect(dll.head).toBe(null);
-//     expect(dll.tail).toBe(null);
-//     expect(dll.length).toBe(0);
-//   });
-// });
+    expect(dll.pop()).toBe(5);
+    expect(dll.head).toBe(null);
+    expect(dll.tail).toBe(null);
+    expect(dll.length).toBe(0);
+  });
+});
 
 // describe("shift", function () {
 //   it("removes node at start and decrements length", function () {

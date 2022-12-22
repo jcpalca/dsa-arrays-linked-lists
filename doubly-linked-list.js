@@ -42,20 +42,43 @@ class DoublyLinkedList {
       this.tail.next = newNode;
       this.tail = newNode;
     }
-    this.length++
+    this.length++;
   }
 
 
   /** unshift(val): add new value to start of list. */
 
   unshift(val) {
-
+    let newNode = new Node(val);
+    if (!this.head) {
+      this.head = newNode;
+      this.tail = newNode;
+    } else {
+      newNode.next = this.head;
+      this.head.prev = newNode;
+      this.head = newNode;
+    }
+    this.length++;
   }
 
   /** pop(): remove last item & return its value */
 
   pop() {
-
+    if (!this.head) {
+      return null;
+    } else {
+      let removed = this.tail;
+      if (this.tail.prev) {
+        this.tail = this.tail.prev;
+        this.tail.next = null;
+      } else {
+        this.tail = null;
+        this.head = null;
+      }
+      removed.prev = null;
+      this.length--;
+      return removed.val;
+    }
   }
 
   /** shift(): remove first item & return its value */

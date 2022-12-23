@@ -21,13 +21,15 @@ class DoublyLinkedList {
   /** get(idx) returns a node at the given index */
 
   _get(idx) {
-    let count = 0;
-    while (this.head) {
-      if (count === idx) return this.head;
-      count++;
-      this.head = this.head.next;
+    if(!this.head) throw new Error("List is empty")
+    if (idx < 0 || idx >= this.length) {
+      throw new Error("Index is out of range!");
     }
-    throw new Error("Out of range");
+    let current = this.head;
+    for (let i = 0; i < idx; i++) {
+      current = current.next;
+    }
+    return current;
   }
 
   /** push(val): add new value to end of list. */
@@ -52,7 +54,7 @@ class DoublyLinkedList {
     let newNode = new Node(val);
     if (!this.head) {
       this.head = newNode;
-      this.tail = newNode;
+      this.tail = this.head;
     } else {
       newNode.next = this.head;
       this.head.prev = newNode;
@@ -97,6 +99,7 @@ class DoublyLinkedList {
       }
       removed.next = null;
       this.length--;
+      console.log(removed.val)
       return removed.val;
     }
   }
@@ -107,25 +110,7 @@ class DoublyLinkedList {
     if (idx < 0 || idx >= this.length) {
       throw new Error("Index is out of range");
     }
-    let current;
-    let midPoint = Math.floor(this.length / 2);
-    if (idx <= midPoint) {
-      current = this.head;
-      let start = 0;
-      while (idx > start) {
-        current = current.next;
-        start++;
-      }
-    }
-    if (idx >= midPoint) {
-      current = this.tail;
-      let start = this.length - 1;
-      while (idx < start) {
-        current = current.prev;
-        start--;
-      }
-    }
-    return current.val;
+    return this._get(idx).val;
   }
 
 
@@ -135,26 +120,8 @@ class DoublyLinkedList {
     if (idx < 0 || idx >= this.length) {
       throw new Error("Index is out of range");
     }
-    let current;
-    let midPoint = Math.floor(this.length / 2);
-    if (idx <= midPoint) {
-      current = this.head;
-      let start = 0;
-      while (idx > start) {
-        current = current.next;
-        start++;
-      }
-    }
-    if (idx >= midPoint) {
-      current = this.tail;
-      let start = this.length - 1;
-      while (idx < start) {
-        current = current.prev;
-        start--;
-      }
-    }
-    current.val = val;
-    return current.val;
+    const newNode = this._get(idx)
+    newNode.val = val
   }
 
   /** insertAt(idx, val): add node w/val before idx. */
@@ -164,34 +131,26 @@ class DoublyLinkedList {
       throw new Error("Index is out of range!");
     }
 
-    let newNode = new Node(val);
-    if (this.length === 0) {
-      this.head = newNode;
-      this.tail = newNode;
-    }
     if (idx === 0) {
       // insert at the beginning of the list
-      newNode.next = this.head;
-      this.head.prev = newNode;
-      this.head = newNode;
+      this.unshift(val);
     } else if (idx === this.length) {
       // insert at the end of the list
-      newNode.prev = this.tail;
-      this.tail.next = newNode;
-      this.tail = newNode;
+      this.push(val);
     } else {
       // insert in the middle of the list
-      let current = this.head;
-      for (let i = 0; i < idx - 1; i++) {
-        current = current.next;
-      }
-      newNode.next = current.next;
-      newNode.prev = current;
-      current.next.prev = newNode;
-      current.next = newNode;
+      // 1 2 4 5, 2
+      //
+      const newNode = new Node(val); // 3
+      const prev = this._get(idx - 1); // 2
+      newNode.next = prev.next; // 3 val 4 next
+      prev.next.prev = newNode; // 4 val 3 prev
+      prev.next = newNode; // 2 val 3 next
+      newNode.prev = prev; // 3 val 2 prev
+      this.length++;
     }
-    this.length++;
   }
+
 
   /** removeAt(idx): return & remove item at idx, */
 
@@ -199,39 +158,23 @@ class DoublyLinkedList {
     if (idx < 0 || idx >= this.length) {
       throw new Error("Index is out of range!");
     }
-
-    if (this.length === 0) {
-      return null;
-    }
-
-    let removedVal;
     if (idx === 0) {
-      // remove the head node
-      removedVal = this.head.val;
-      this.head = this.head.next;
-      if (this.head) {
-        this.head.prev = null;
-      } else {
-        this.tail = null;
-      }
-    } else if (idx === this.length - 1) {
-      // remove the tail node
-      removedVal = this.tail.val;
-      this.tail = this.tail.prev;
-      this.tail.next = null;
+      // remove at the beginning of the list
+      return this.shift();
+    } else if (idx === this.length-1) {
+      // remove at the end of the list
+      return this.pop();
     } else {
-      // remove a node from the middle of the list
-      let current = this.head;
-      for (let i = 0; i < idx; i++) {
-        current = current.next;
-      }
-      removedVal = current.val;
-      current.prev.next = current.next;
-      current.next.prev = current.prev;
+      // insert in the middle of the list
+      // 1 2 (3) 4 5, 2
+      //
+      const temp = this._get(idx);
+      temp.prev.next = temp.next;
+      temp.next.prev = temp.prev;
+      this.length -= 1;
+      return temp.val;
     }
 
-    this.length--;
-    return removedVal;
   }
 
 }
